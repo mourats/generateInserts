@@ -157,7 +157,7 @@ CREATE TABLE VENDA (
 );
 
 CREATE TABLE TELEFONE (
-	telefone VARCHAR2(14),
+	telefone VARCHAR2(15),
 	cpf_cliente VARCHAR2(14),
 
     CONSTRAINT fk_telefone_cliente 

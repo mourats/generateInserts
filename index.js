@@ -159,7 +159,15 @@ const quarto = () => {
   primaryKeys.quarto = [];
   let quarto = "-----Quarto------\n\n";
   for (let idx = 0; idx < 30; idx++) {
-    const numero = getRandomInt(100, 300);
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numero =
+      idx % 2 === 0
+        ? getRandomInt(100, 300) +
+          "-" +
+          characters[getRandomInt(0, characters.length - 1)]
+        : characters[getRandomInt(0, characters.length - 1)] +
+          "-" +
+          getRandomInt(100, 300);
     primaryKeys.quarto.push(numero);
     quarto += `${insertQuarto} ('${numero}', '${
       idx % 2 === 0 ? "frontal" : "lateral"
@@ -193,13 +201,10 @@ const telefone = () => {
   let telefone = "-----Telefone------\n\n";
   primaryKeys.clientes.forEach(element => {
     for (let idx = 0; idx < getRandomInt(1, 2); idx++) {
-      telefone += `${insertTelefone} ('(0${getRandomInt(
-        10,
-        99
-      )}) ${getRandomInt(10000, 99999)}-${getRandomInt(
-        1000,
-        9999
-      )}', '${element}');\n\n`;
+      telefone += `${insertTelefone} ('(${getRandomInt(10, 99)}) ${getRandomInt(
+        10000,
+        99999
+      )}-${getRandomInt(1000, 9999)}', '${element}');\n\n`;
     }
   });
   return telefone;
