@@ -8,7 +8,7 @@ const insertDependente =
   "INSERT INTO DEPENDENTE (CPF, DATA_NASC, NOME, CPF_CLIENTE) VALUES";
 
 const insertAvaliacao =
-  "INSERT INTO AVALIACAO (ID, NOTA, COMENTARIO, CPF_CLIENTE) VALUES";
+  "INSERT INTO AVALIACAO (ID, NOTA, DATA, COMENTARIO, CPF_CLIENTE) VALUES";
 
 const insertFuncionario =
   "INSERT INTO FUNCIONARIO (CPF, NOME, DATA_NASC, SALARIO, FUNCAO) VALUES";
@@ -29,8 +29,11 @@ const insertHospeda =
 const insertReserva =
   "INSERT INTO RESERVA (ID_RESERVA, CPF_CLIENTE, NUMERO_QUARTO, DIA_CHECK_IN, DIA_CHECK_OUT) VALUES";
 
-const insertVenda = "";
-const insertManuntencao = "";
+const insertVenda =
+  "INSERT INTO VENDA (ID_VENDA, ID_PRODUTO, NUMERO_QUARTO, DATA, QUANTIDADE) VALUES";
+
+const insertManuntencao =
+  "INSERT INTO MANUTENCAO (ID_MANUTENCAO, CPF_FUNCIONARIO, NUMERO_QUARTO, DATA, TIPO_MANUTENCAO, OBSERVACAO) VALUES";
 
 /*
  * Returns a random integer between min (inclusive) and max (inclusive).
@@ -148,9 +151,13 @@ const quarto = () => {
 
 const produto = () => {
   const tipo = ["Lavanderia", "Bar", "Restaurante", "Frigobar"];
+
+  primaryKeys.produto = [];
   let produto = "-----Produto------\n\n";
   for (let idx = 0; idx < 100; idx++) {
-    produto += `${insertProduto} (${idx + 1}, '${
+    const id = idx + 1;
+    primaryKeys.produto.push(id);
+    produto += `${insertProduto} (${id}, '${
       tipo[getRandomInt(0, tipo.length - 1)]
     }', 'produto ${idx}', ${getRandomInt(1, 10)}, ${getRandomInt(
       1,
@@ -233,6 +240,40 @@ const reserva = () => {
   return reserva;
 };
 
+const venda = () => {
+  let venda = "-----Venda------\n\n";
+  for (let idx = 0; idx < 150; idx++) {
+    venda += `${insertVenda} (${idx + 1}, ${
+      primaryKeys.produto[getRandomInt(0, primaryKeys.produto.length - 1)]
+    }, '${
+      primaryKeys.quarto[getRandomInt(0, primaryKeys.quarto.length - 1)]
+    }', TO_DATE('0${getRandomInt(1, 9)}/0${getRandomInt(1, 9)}/${getRandomInt(
+      2015,
+      2019
+    )}','DD/MM/YYYY'), ${getRandomInt(1, 5)});\n\n`;
+  }
+  return venda;
+};
+
+const manutencao = () => {
+  let manutencao = "-----Manutenção------\n\n";
+  for (let idx = 0; idx < 50; idx++) {
+    manutencao += `${insertManuntencao} (${idx + 1}, '${
+      primaryKeys.clientes[getRandomInt(0, primaryKeys.clientes.length - 1)]
+    }', '${
+      primaryKeys.quarto[getRandomInt(0, primaryKeys.quarto.length - 1)]
+    }', TO_DATE('0${getRandomInt(1, 9)}/0${getRandomInt(1, 9)}/${getRandomInt(
+      2015,
+      2019
+    )}','DD/MM/YYYY'), '${
+      getRandomInt(0, 1) === 0 ? "limpeza" : "conserto"
+    }', '${
+      getRandomInt(0, 1) === 0 ? "Nenhuma" : "Uma bela e linda observação"
+    }');\n\n`;
+  }
+  return manutencao;
+};
+
 /* -----------------------------------------------  */
 
 const generateInserts = () => {
@@ -246,6 +287,8 @@ const generateInserts = () => {
   const equipamentoString = equipamento();
   const hospedaString = hospeda();
   const reservaString = reserva();
+  const vendaString = venda();
+  const manutencaoString = manutencao();
 
   save(
     clientesString +
@@ -257,7 +300,9 @@ const generateInserts = () => {
       telefoneString +
       equipamentoString +
       hospedaString +
-      reservaString
+      reservaString +
+      vendaString +
+      manutencaoString
   );
 };
 
