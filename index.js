@@ -281,7 +281,9 @@ const manutencao = () => {
   let manutencao = "-----Manutenção------\n\n";
   for (let idx = 0; idx < 50; idx++) {
     manutencao += `${insertManuntencao} (${idx + 1}, '${
-      primaryKeys.clientes[getRandomInt(0, primaryKeys.clientes.length - 1)]
+      primaryKeys.funcionarios[
+        getRandomInt(0, primaryKeys.funcionarios.length - 1)
+      ]
     }', '${
       primaryKeys.quarto[getRandomInt(0, primaryKeys.quarto.length - 1)]
     }', TO_DATE('0${getRandomInt(1, 9)}/0${getRandomInt(1, 9)}/${getRandomInt(
