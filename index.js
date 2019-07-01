@@ -48,7 +48,15 @@ const clientes = () => {
   let clientes = "-----Clientes-----\n\n";
   primaryKeys.clientes = [];
   for (let idx = 0; idx < 20; idx++) {
-    const cpf = getRandomInt(10000000000, 99999999999);
+    const cpf =
+      "" +
+      getRandomInt(100, 999) +
+      "." +
+      getRandomInt(100, 999) +
+      "." +
+      getRandomInt(100, 999) +
+      "-" +
+      getRandomInt(10, 99);
     primaryKeys.clientes.push(cpf);
 
     clientes += `${insertCliente} ('${cpf}','cliente 0${idx}', 'cliente0${idx}@gmail.com', 'Rua ${getRandomInt(
@@ -69,13 +77,19 @@ const dependentes = () => {
   let contDepen = 1;
   primaryKeys.clientes.forEach(element => {
     for (let idx = 0; idx < getRandomInt(1, 5); idx++) {
-      dependentes += `${insertDependente} ('${getRandomInt(
-        10000000000,
-        99999999999
-      )}', TO_DATE('0${getRandomInt(1, 9)}/0${getRandomInt(
+      const cpf =
+        "" +
+        getRandomInt(100, 999) +
+        "." +
+        getRandomInt(100, 999) +
+        "." +
+        getRandomInt(100, 999) +
+        "-" +
+        getRandomInt(10, 99);
+      dependentes += `${insertDependente} ('${cpf}', TO_DATE('0${getRandomInt(
         1,
         9
-      )}/${getRandomInt(
+      )}/0${getRandomInt(1, 9)}/${getRandomInt(
         1910,
         2019
       )}','DD/MM/YYYY'),'dependente 0${contDepen++}', '${element}');\n\n`;
@@ -115,7 +129,15 @@ const funcionarios = () => {
   let funcionarios = "-----Funcionários-----\n\n";
   primaryKeys.funcionarios = [];
   for (let idx = 0; idx < 10; idx++) {
-    const cpf = getRandomInt(10000000000, 99999999999);
+    const cpf =
+      "" +
+      getRandomInt(100, 999) +
+      "." +
+      getRandomInt(100, 999) +
+      "." +
+      getRandomInt(100, 999) +
+      "-" +
+      getRandomInt(10, 99);
     primaryKeys.funcionarios.push(cpf);
 
     funcionarios += `${insertFuncionario} ('${cpf}','funcionario 0${idx}', TO_DATE('0${getRandomInt(
