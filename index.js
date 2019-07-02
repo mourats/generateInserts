@@ -226,23 +226,24 @@ const equipamento = () => {
 const hospeda = () => {
   let hospeda = "-----Hospeda------\n\n";
   let contHosp = 1;
-
+  primaryKeys.hospedaDate = [];
   primaryKeys.clientes.forEach(element => {
-    primaryKeys.hospedaDate = [];
     for (let idx = 0; idx < getRandomInt(1, 2); idx++) {
-      let dia = getRandomInt(1, 5);
-      let diaOut = dia + getRandomInt(1, 4);
-      dia = "0" + dia;
-      diaOut = "0" + diaOut;
+      let dia = getRandomInt(1, 31);
+      let diaOut = dia + getRandomInt(1, 31);
+      dia = dia < 10 ? "0" + dia : dia;
+      diaOut = diaOut - 31 > 0 ? diaOut - 31 : diaOut;
+      diaOut = diaOut < 10 ? "0" + diaOut : diaOut;
 
-      const mes = getRandomInt(1, 9);
+      let mes = getRandomInt(1, 12);
+      mes = mes < 10 ? "0" + mes : mes;
       const ano = getRandomInt(2010, 2019);
 
       primaryKeys.hospedaDate.push(
-        `TO_DATE('${dia}/0${mes}/${ano}','DD/MM/YYYY')`
+        `TO_DATE('${dia}/${mes}/${ano}','DD/MM/YYYY')`
       );
 
-      hospeda += `${insertHospeda} (${contHosp++}, TO_DATE('${dia}/0${mes}/${ano}','DD/MM/YYYY'), TO_DATE('${diaOut}/0${mes}/${ano}','DD/MM/YYYY'), '${element}', '${
+      hospeda += `${insertHospeda} (${contHosp++}, TO_DATE('${dia}/${mes}/${ano}','DD/MM/YYYY'), TO_DATE('${diaOut}/${mes}/${ano}','DD/MM/YYYY'), '${element}', '${
         primaryKeys.quarto[getRandomInt(0, primaryKeys.quarto.length - 1)]
       }');\n\n`;
     }
@@ -256,17 +257,19 @@ const reserva = () => {
 
   primaryKeys.clientes.forEach(element => {
     for (let idx = 0; idx < getRandomInt(1, 3); idx++) {
-      let dia = getRandomInt(1, 5);
-      let diaOut = dia + getRandomInt(1, 4);
-      dia = "0" + dia;
-      diaOut = "0" + diaOut;
+      let dia = getRandomInt(1, 31);
+      let diaOut = dia + getRandomInt(1, 31);
+      dia = dia < 10 ? "0" + dia : dia;
+      diaOut = diaOut - 31 > 0 ? diaOut - 31 : diaOut;
+      diaOut = diaOut < 10 ? "0" + diaOut : diaOut;
 
-      const mes = getRandomInt(1, 9);
+      let mes = getRandomInt(1, 12);
+      mes = mes < 10 ? "0" + mes : mes;
       const ano = getRandomInt(2010, 2019);
 
       reserva += `${insertReserva} (${contReserv++}, '${element}', '${
         primaryKeys.quarto[getRandomInt(0, primaryKeys.quarto.length - 1)]
-      }', TO_DATE('${dia}/0${mes}/${ano}','DD/MM/YYYY'), TO_DATE('${diaOut}/0${mes}/${ano}','DD/MM/YYYY'));\n\n`;
+      }', TO_DATE('${dia}/${mes}/${ano}','DD/MM/YYYY'), TO_DATE('${diaOut}/${mes}/${ano}','DD/MM/YYYY'));\n\n`;
     }
   });
   return reserva;
