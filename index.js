@@ -59,7 +59,7 @@ const clientes = () => {
       getRandomInt(10, 99);
     primaryKeys.clientes.push(cpf);
 
-    clientes += `${insertCliente} ('${cpf}','cliente 0${idx}', 'cliente0${idx}@gmail.com', 'Rua ${getRandomInt(
+    clientes += `${insertCliente} ('${cpf}','cliente0${idx}@gmail.com', 'cliente 0${idx}', 'Rua ${getRandomInt(
       1000,
       2000
     )}', '${
@@ -170,8 +170,8 @@ const quarto = () => {
           getRandomInt(100, 300);
     primaryKeys.quarto.push(numero);
     quarto += `${insertQuarto} ('${numero}', '${
-      idx % 2 === 0 ? "frontal" : "lateral"
-    }', '${tipo[getRandomInt(0, tipo.length - 1)]}', ${getRandomInt(
+      tipo[getRandomInt(0, tipo.length - 1)]
+    }', '${idx % 2 === 0 ? "frontal" : "lateral"}', ${getRandomInt(
       100,
       300
     )}.00);\n\n`;
@@ -189,10 +189,10 @@ const produto = () => {
     primaryKeys.produto.push(id);
     produto += `${insertProduto} (${id}, '${
       tipo[getRandomInt(0, tipo.length - 1)]
-    }', 'produto ${idx}', ${getRandomInt(1, 10)}, ${getRandomInt(
+    }', 'produto ${idx}', ${getRandomInt(
       1,
       200
-    )}.00);\n\n`;
+    )}.00, 'Descrição do produto: ${id}');\n\n`;
   }
   return produto;
 };
@@ -228,6 +228,7 @@ const hospeda = () => {
   let contHosp = 1;
 
   primaryKeys.clientes.forEach(element => {
+    primaryKeys.hospedaDate = [];
     for (let idx = 0; idx < getRandomInt(1, 2); idx++) {
       let dia = getRandomInt(1, 5);
       let diaOut = dia + getRandomInt(1, 4);
@@ -236,6 +237,10 @@ const hospeda = () => {
 
       const mes = getRandomInt(1, 9);
       const ano = getRandomInt(2010, 2019);
+
+      primaryKeys.hospedaDate.push(
+        `TO_DATE('${dia}/0${mes}/${ano}','DD/MM/YYYY')`
+      );
 
       hospeda += `${insertHospeda} (${contHosp++}, TO_DATE('${dia}/0${mes}/${ano}','DD/MM/YYYY'), TO_DATE('${diaOut}/0${mes}/${ano}','DD/MM/YYYY'), '${element}', '${
         primaryKeys.quarto[getRandomInt(0, primaryKeys.quarto.length - 1)]
@@ -274,10 +279,11 @@ const venda = () => {
       primaryKeys.produto[getRandomInt(0, primaryKeys.produto.length - 1)]
     }, '${
       primaryKeys.quarto[getRandomInt(0, primaryKeys.quarto.length - 1)]
-    }', TO_DATE('0${getRandomInt(1, 9)}/0${getRandomInt(1, 9)}/${getRandomInt(
-      2015,
-      2019
-    )}','DD/MM/YYYY'), ${getRandomInt(1, 5)});\n\n`;
+    }', ${
+      primaryKeys.hospedaDate[
+        getRandomInt(0, primaryKeys.hospedaDate.length - 1)
+      ]
+    }, ${getRandomInt(1, 5)});\n\n`;
   }
   return venda;
 };
