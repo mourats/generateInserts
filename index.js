@@ -226,9 +226,9 @@ const equipamento = () => {
 const hospeda = () => {
   let hospeda = "-----Hospeda------\n\n";
   let contHosp = 1;
+  primaryKeys.hospedaDate = [];
 
   primaryKeys.clientes.forEach(element => {
-    primaryKeys.hospedaDate = [];
     for (let idx = 0; idx < getRandomInt(1, 2); idx++) {
       let dia = getRandomInt(1, 5);
       let diaOut = dia + getRandomInt(1, 4);
